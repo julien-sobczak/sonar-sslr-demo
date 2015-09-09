@@ -54,6 +54,9 @@ public class ArrayTreeImpl extends sslr.typed.json.parser.JsonTree implements Ar
 
 	@Override
 	public Iterator<Tree> childrenIterator() {
+		// Utilise Google Guava pour faciliter la création des itérators. 
+		// Cette dépendance est tirée de SonarQube qui l'utilise massivement.
+		
 		ImmutableList.Builder<Tree> iteratorBuilder = ImmutableList.builder();
 		iteratorBuilder.add(openBracketToken);
 		iteratorBuilder.addAll(elements);

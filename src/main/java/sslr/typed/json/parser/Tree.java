@@ -9,12 +9,15 @@ import sslr.typed.json.parser.tree.PairTree;
 import sslr.typed.json.parser.tree.TypeTree;
 
 /**
- * Common interface for all nodes in a syntax tree.
+ * Interface commune à tous les types de noeud.
+ * 
+ * @see sslr.typed.json.parser.JsonTree 
  */
 public interface Tree {
 
   boolean is(Kind... kind);
 
+  /* Utiliser du pattern Visitor pour découpler l'arbre des règles qui doivent le parcourir */
   void accept(TreeVisitor visitor);
 
   public enum Kind implements GrammarRuleKey {

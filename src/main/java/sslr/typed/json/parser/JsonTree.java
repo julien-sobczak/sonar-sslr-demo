@@ -4,6 +4,9 @@ import java.util.Iterator;
 
 import org.sonar.sslr.grammar.GrammarRuleKey;
 
+/** 
+ * Abstract class pour définir le comportement commun à chaque type de noeud (voir sous-classes).
+ */
 public abstract class JsonTree implements Tree {
 
 	protected GrammarRuleKey grammarRuleKey;
@@ -27,16 +30,12 @@ public abstract class JsonTree implements Tree {
 	public abstract Kind getKind();
 
 	/**
-	 * Creates iterator for children of this node. Note that iterator may
-	 * contain {@code null} elements.
-	 *
-	 * @throws java.lang.UnsupportedOperationException
-	 *             if {@link #isLeaf()} returns {@code true}
+	 * Pour itérer sur les noeuds enfants de ce noeud.
 	 */
 	public abstract Iterator<Tree> childrenIterator();
 
 	public boolean isLeaf() {
-		return false;
+		return false; 
 	}
 
 	public GrammarRuleKey getGrammarRuleKey() {

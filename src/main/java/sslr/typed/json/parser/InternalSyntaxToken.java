@@ -4,6 +4,12 @@ import java.util.Iterator;
 
 import org.sonar.sslr.grammar.GrammarRuleKey;
 
+/**
+ * Les tokens (c'est-à-dire les symboles terminaux comme une virgule, une accolade, etc)
+ * n'ont pas de type associé (comme ArrayTree ou ObjectTree).
+ * 
+ * C'est cette classe qui les représente lors l'analyse du langage. 
+ */
 public class InternalSyntaxToken extends JsonTree implements SyntaxToken {
 
 	private int startIndex;

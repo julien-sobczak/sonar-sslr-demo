@@ -17,17 +17,23 @@ import sslr.typed.json.parser.tree.ValueTree;
  */
 public class BaseTreeVisitor implements TreeVisitor {
 
-	protected void scan(List<? extends Tree> trees) {
-		for (Tree tree : trees) {
-			scan(tree);
-		}
-	}
-
+	/*
+	 * Point d'entrée lors de l'analyse d'une règle.
+	 * Est appeler avec la racine puis successivement avec les différents noeuds (récursif).
+	 */
 	public void scan(@Nullable Tree tree) {
 		if (tree != null) {
 			tree.accept(this);
 		}
 	}
+
+	protected void scan(List<? extends Tree> trees) {
+		for (Tree tree : trees) {
+			scan(tree);
+		}
+	}
+	
+	/* Liste des méthodes à surcharger dans les sous-classes au besoin */
 
 	@Override
 	public void visitJson(JsonTree tree) {

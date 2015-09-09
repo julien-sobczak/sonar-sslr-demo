@@ -17,10 +17,69 @@ import sslr.typed.json.parser.tree.impl.ValueTreeImpl;
 
 import com.sonar.sslr.api.typed.Optional;
 
-
+/**
+ *  <p>Factory permettant d'instancier facilement les différents types de noeud.</p>
+ *  
+ *  <p>Travaille conjointement avec {@link JsonGrammar}.</p>
+ */
 public class TreeFactory {
 
-	// Helpers
+
+	public JsonTree json(TypeTree type) {
+		return new JsonTreeImpl(type);
+	}
+
+	public ObjectTree object(
+			InternalSyntaxToken openCurlyBraceToken,
+			InternalSyntaxToken openWhitespaceToken,
+			Optional<Tuple<PairTree, Optional<List<Triple<InternalSyntaxToken, InternalSyntaxToken, PairTree>>>>> tuple,
+			InternalSyntaxToken closeCurlyBraceToken, InternalSyntaxToken closeWhitespaceToken) {
+		
+		// Convertit les données en entrée pour pouvoir créer les instances de noeud.
+		// Ex : on ignore les tokens inutiles, on supprime les Optional, on recrée des listes si nécessaires, etc.
+		
+		List<PairTree> pairs = new ArrayList<>();
+		if (tuple.isPresent()) {
+			PairTree first = tuple.get().first();
+			pairs.add(first);
+			// TODO use second()
+		}
+		return new ObjectTreeImpl(openCurlyBraceToken, pairs, closeCurlyBraceToken);
+	}
+
+	public ArrayTree array(
+			InternalSyntaxToken openBracketToken,
+			InternalSyntaxToken openWhitespaceToken,
+			Optional<Tuple<ValueTree, Optional<List<Triple<InternalSyntaxToken, InternalSyntaxToken, ValueTree>>>>> tuple,
+			InternalSyntaxToken closeBracketToken, InternalSyntaxToken closeWhitespaceToken) {
+		List<ValueTree> elements = new ArrayList<>();
+		if (tuple.isPresent()) {
+			ValueTree value = tuple.get().first();
+			elements.add(value);
+			
+			if (tuple.get().second().isPresent()) {
+				value = tuple.get().first();
+				elements.add(value);
+			}
+			
+			// TODO process next elements
+		}
+		
+		return new ArrayTreeImpl(openBracketToken, elements, closeBracketToken);
+	}
+
+	public PairTree pair(InternalSyntaxToken name, InternalSyntaxToken colonToken,
+			InternalSyntaxToken whitespaceToken, ValueTree value) {
+		return new PairImpl(name, value);
+	}
+
+	public ValueTree value(Tree value) {
+		return new ValueTreeImpl(value);
+	}
+	
+	
+	
+	// Helpers (obscurs mais nécessaires au fonctionnement de JsonGrammar pour que ça compile)
 
 	public static class Triple<T, U, V> {
 		private final T first;
@@ -86,54 +145,6 @@ public class TreeFactory {
 
 	public <T, U> Tuple<T, U> newTuple2(T first, U second) {
 		return newTuple(first, second);
-	}
-
-	public JsonTree json(TypeTree type) {
-		return new JsonTreeImpl(type);
-	}
-
-	public ObjectTree object(
-			InternalSyntaxToken openCurlyBraceToken,
-			InternalSyntaxToken openWhitespaceToken,
-			Optional<Tuple<PairTree, Optional<List<Triple<InternalSyntaxToken, InternalSyntaxToken, PairTree>>>>> tuple,
-			InternalSyntaxToken closeCurlyBraceToken, InternalSyntaxToken closeWhitespaceToken) {
-		List<PairTree> pairs = new ArrayList<>();
-		if (tuple.isPresent()) {
-			PairTree first = tuple.get().first();
-			pairs.add(first);
-			// TODO use second()
-		}
-		return new ObjectTreeImpl(openCurlyBraceToken, pairs, closeCurlyBraceToken);
-	}
-
-	public ArrayTree array(
-			InternalSyntaxToken openBracketToken,
-			InternalSyntaxToken openWhitespaceToken,
-			Optional<Tuple<ValueTree, Optional<List<Triple<InternalSyntaxToken, InternalSyntaxToken, ValueTree>>>>> tuple,
-			InternalSyntaxToken closeBracketToken, InternalSyntaxToken closeWhitespaceToken) {
-		List<ValueTree> elements = new ArrayList<>();
-		if (tuple.isPresent()) {
-			ValueTree value = tuple.get().first();
-			elements.add(value);
-			
-			if (tuple.get().second().isPresent()) {
-				value = tuple.get().first();
-				elements.add(value);
-			}
-			
-			// TODO process next elements
-		}
-		
-		return new ArrayTreeImpl(openBracketToken, elements, closeBracketToken);
-	}
-
-	public PairTree pair(InternalSyntaxToken name, InternalSyntaxToken colonToken,
-			InternalSyntaxToken whitespaceToken, ValueTree value) {
-		return new PairImpl(name, value);
-	}
-
-	public ValueTree value(Tree value) {
-		return new ValueTreeImpl(value);
 	}
 
 }

@@ -15,6 +15,9 @@ import sslr.typed.json.parser.TreeFactory;
 
 import com.sonar.sslr.api.typed.ActionParser;
 
+/**
+ * Classe de tests pour exercer notre grammaire et appliquer une règle sur l'AST créé.
+ */
 public class JsonGrammarTest {
 
 	@Test

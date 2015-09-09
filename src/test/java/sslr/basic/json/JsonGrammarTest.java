@@ -17,6 +17,10 @@ import sslr.basic.json.parser.JsonGrammar;
 
 import com.sonar.sslr.api.AstNode;
 
+/**
+ * Classe de tests pour exercer notre grammaire et appliquer une règle sur l'AST créé.
+ */
+@SuppressWarnings("unchecked")
 public class JsonGrammarTest {
 
 	@Test

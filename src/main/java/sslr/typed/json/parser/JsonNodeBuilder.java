@@ -11,6 +11,7 @@ import com.sonar.sslr.api.Trivia;
 import com.sonar.sslr.api.typed.Input;
 import com.sonar.sslr.api.typed.NodeBuilder;
 
+/* Copier-coller de org.sonar.java.ast.parser.JavaNodeBuilder dans sonar-java. */
 public class JsonNodeBuilder implements NodeBuilder {
 
   @Override
