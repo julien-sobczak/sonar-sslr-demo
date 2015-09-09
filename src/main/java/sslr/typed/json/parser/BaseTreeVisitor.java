@@ -61,8 +61,7 @@ public class BaseTreeVisitor implements TreeVisitor {
 
 	@Override
 	public void visitValue(ValueTree tree) {
-		// TODO Auto-generated method stub
-
+		scan(tree.value());
 	}
 
 }

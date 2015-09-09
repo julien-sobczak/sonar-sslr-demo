@@ -120,6 +120,8 @@ public class TreeFactory {
 				value = tuple.get().first();
 				elements.add(value);
 			}
+			
+			// TODO process next elements
 		}
 		
 		return new ArrayTreeImpl(openBracketToken, elements, closeBracketToken);
