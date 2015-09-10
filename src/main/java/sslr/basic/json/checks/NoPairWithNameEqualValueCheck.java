@@ -46,6 +46,8 @@ public class NoPairWithNameEqualValueCheck extends SquidCheck<LexerlessGrammar> 
 				  // Le contexte sert à remonter les violations
 			}
 		}
+		
+		super.visitNode(astNode); // Important pour que l'analyse continue sur ce fichier
 	}
 
 	private String extractString(AstNode node) {

@@ -1,7 +1,10 @@
 package sslr.typed.json.checks;
 
+import org.sonar.api.server.rule.RulesDefinition;
 import org.sonar.check.Priority;
 import org.sonar.check.Rule;
+import org.sonar.squidbridge.annotations.SqaleConstantRemediation;
+import org.sonar.squidbridge.annotations.SqaleSubCharacteristic;
 import org.sonar.squidbridge.api.CodeVisitor;
 
 import sslr.typed.json.parser.BaseTreeVisitor;
@@ -18,6 +21,8 @@ import sslr.typed.json.parser.tree.PairTree;
 		key = "stupid_rule_1", 
 		name = "Property name should not be equals to their value.", 
 		priority = Priority.MINOR)
+@SqaleSubCharacteristic(RulesDefinition.SubCharacteristics.DATA_RELIABILITY)
+@SqaleConstantRemediation("2min")
 public class NoPairWithNameEqualValueCheck extends BaseTreeVisitor implements CodeVisitor {
 
 	@Override
@@ -32,6 +37,8 @@ public class NoPairWithNameEqualValueCheck extends BaseTreeVisitor implements Co
 				throw new IllegalArgumentException("Wrong!");
 			}
 		}
+		
+		super.visitPair(tree); // Important pour que l'analyse continue sur ce fichier
 	}
 
 }
